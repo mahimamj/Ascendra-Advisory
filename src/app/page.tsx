@@ -2,6 +2,7 @@ import React from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import TrustMetrics from "@/components/TrustMetrics";
+import Certifications from "@/components/Certifications";
 import SolutionsHub from "@/components/SolutionsHub";
 import IndustryShowcase from "@/components/IndustryShowcase";
 import AdvantageTimeline from "@/components/AdvantageTimeline";
@@ -29,6 +30,9 @@ export default function Home() {
 
         {/* Scroll counters trust stats */}
         <TrustMetrics />
+
+        {/* Institutional Compliance Certifications */}
+        <Certifications />
 
         {/* Product Explorer Hub */}
         <SolutionsHub />
