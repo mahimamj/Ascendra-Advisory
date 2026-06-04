@@ -220,9 +220,14 @@ export default function Footer() {
           <p className="text-silver-soft/40 text-[11px] text-center md:text-left leading-normal max-w-2xl">
             Disclaimer: Ascendra Advisory acts as an independent corporate debt arranger and structuring advisor. All credit approvals, limits, and pricing are subject to credit evaluations by underwriting partner banks and financial institutions.
           </p>
-          <p className="text-silver-soft/50 text-xs tracking-wider uppercase font-semibold text-center md:text-right shrink-0">
-            © {new Date().getFullYear()} ASCENDRA ADVISORY. ALL RIGHTS RESERVED.
-          </p>
+          <div className="flex flex-col items-center md:items-end gap-1 shrink-0">
+            <p className="text-silver-soft/50 text-xs tracking-wider uppercase font-semibold text-center md:text-right">
+              © {new Date().getFullYear()} ASCENDRA ADVISORY. ALL RIGHTS RESERVED.
+            </p>
+            <p className="text-gold-champagne/70 text-[10px] font-mono tracking-wider uppercase text-center md:text-right">
+              Created by Mahima Joshi | Team Social Tusk
+            </p>
+          </div>
         </div>
       </div>
     </footer>
