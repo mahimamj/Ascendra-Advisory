@@ -18,6 +18,7 @@ export default function Header() {
 
   const navLinks = [
     { name: "Solutions", href: "#solutions" },
+    { name: "Compliance", href: "#certifications" },
     { name: "Industries", href: "#industries" },
     { name: "Advantage", href: "#advantage" },
     { name: "Eligibility Calculator", href: "#calculator" },
