@@ -11,10 +11,14 @@ import CaseStudies from "@/components/CaseStudies";
 import InsightsHub from "@/components/InsightsHub";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
 import Footer from "@/components/Footer";
+import GmailFormModal from "@/components/GmailFormModal";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-navy-dark overflow-x-hidden antialiased">
+      {/* 3-second delayed Gmail intake modal */}
+      <GmailFormModal />
+
       {/* Navigation Layer */}
       <Header />
 
