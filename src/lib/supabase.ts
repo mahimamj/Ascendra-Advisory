@@ -30,6 +30,7 @@ export interface FinancingCategory {
   id: string;
   title: string;
   description: string;
+  fundingRange: string;
   icon: string;
   image?: string;
   whyChoose?: string[];
@@ -46,9 +47,19 @@ export interface IndustryData {
   id: string;
   name: string;
   image: string;
-  challenge: string;
-  solution: string;
-  growthPotential: string;
+  coverImage: string;
+  tagline: string;
+}
+
+export interface Testimonial {
+  id: string;
+  quote: string;
+  author: string;
+  role: string;
+  company: string;
+  category: string;
+  fundingAmount: string;
+  initials: string;
 }
 
 export interface GovernmentScheme {
@@ -89,8 +100,9 @@ export interface BlogPost {
 export const FINANCING_SOLUTIONS: FinancingCategory[] = [
   {
     id: "working-capital",
-    title: "Working Capital",
-    description: "OD/CC lines up to ₹250 Cr. Pay interest only on what you use.",
+    title: "Working Capital Finance",
+    description: "Flexible credit facilities for operational growth.",
+    fundingRange: "Up to ₹250 Cr",
     icon: "ShieldAlert",
     image: "/images/working_capital.webp",
     whyChoose: [
@@ -109,8 +121,9 @@ export const FINANCING_SOLUTIONS: FinancingCategory[] = [
   },
   {
     id: "business-growth",
-    title: "Business Loans",
-    description: "Unsecured growth capital up to ₹1 Cr. Disbursed in 48–72 hours.",
+    title: "Business Growth Loans",
+    description: "Unsecured capital for fast-scaling enterprises.",
+    fundingRange: "Up to ₹1 Cr",
     icon: "TrendingUp",
     image: "/images/business_financing.webp",
     whyChoose: [
@@ -126,8 +139,9 @@ export const FINANCING_SOLUTIONS: FinancingCategory[] = [
   },
   {
     id: "asset-financing",
-    title: "Asset & Machinery",
-    description: "Finance equipment without draining operating reserves.",
+    title: "Asset & Machinery Finance",
+    description: "Equipment and infrastructure without draining reserves.",
+    fundingRange: "Up to ₹10 Cr",
     icon: "Cpu",
     image: "/images/machinery_financing.webp",
     whyChoose: [
@@ -143,8 +157,9 @@ export const FINANCING_SOLUTIONS: FinancingCategory[] = [
   },
   {
     id: "sector-specific",
-    title: "Sector-Specific",
-    description: "Debt shaped to your industry's cash cycle.",
+    title: "Sector-Specific Finance",
+    description: "Debt structured to your industry's cash cycle.",
+    fundingRange: "Custom limits",
     icon: "FileSpreadsheet",
     image: "/images/textile_financing.webp",
     whyChoose: [
@@ -161,8 +176,9 @@ export const FINANCING_SOLUTIONS: FinancingCategory[] = [
   },
   {
     id: "startup-project",
-    title: "Startup & Project",
-    description: "Non-dilutive capital for startups and greenfield projects.",
+    title: "Startup & Project Finance",
+    description: "Non-dilutive capital for ventures and greenfield projects.",
+    fundingRange: "Up to ₹250 Cr+",
     icon: "Compass",
     image: "/images/startup_financing.webp",
     whyChoose: [
@@ -178,8 +194,9 @@ export const FINANCING_SOLUTIONS: FinancingCategory[] = [
   },
   {
     id: "gov-backed",
-    title: "Government Schemes",
-    description: "CGTMSE collateral-free cover up to ₹10 Cr with subsidized rates.",
+    title: "Government-Backed Funding",
+    description: "CGTMSE and sovereign schemes with subsidized rates.",
+    fundingRange: "Up to ₹10 Cr",
     icon: "Award",
     image: "/images/cgtmse_financing.webp",
     whyChoose: [
@@ -196,69 +213,54 @@ export const FINANCING_SOLUTIONS: FinancingCategory[] = [
 ];
 
 export const INDUSTRIES_DATA: IndustryData[] = [
+  { id: "manufacturing", name: "Manufacturing", image: "factory", coverImage: "/images/machinery_financing.webp", tagline: "Capacity expansion & working capital at scale." },
+  { id: "infrastructure", name: "Infrastructure", image: "building", coverImage: "/images/project_finance.webp", tagline: "Project finance for roads, plants and utilities." },
+  { id: "warehousing", name: "Warehousing", image: "warehouse", coverImage: "/images/warehouse_financing.webp", tagline: "Cold-chain, logistics and storage infrastructure." },
+  { id: "agriculture", name: "Agriculture", image: "sprout", coverImage: "/images/agri_financing.webp", tagline: "Post-harvest, processing and agri-infra funding." },
+  { id: "startups", name: "Startups", image: "rocket", coverImage: "/images/startup_financing.webp", tagline: "Venture debt and growth capital without dilution." },
+  { id: "textiles", name: "Textiles", image: "scissors", coverImage: "/images/textile_financing.webp", tagline: "Seasonal credit and machinery for textile units." },
+];
+
+export const TESTIMONIALS: Testimonial[] = [
   {
-    id: "manufacturing",
-    name: "Manufacturing",
-    image: "factory",
-    challenge: "Raw material costs lock up cash for 90+ days.",
-    solution: "Bill discounting + OD lines for uninterrupted supply.",
-    growthPotential: "40% capacity increase",
+    id: "t1",
+    quote: "Ascendra structured ₹24 Cr across three lenders in under six weeks. Our export capacity grew 45% without equity dilution.",
+    author: "Rajesh Mehta",
+    role: "Managing Director",
+    company: "Vardhman Texturizers",
+    category: "Textiles",
+    fundingAmount: "₹24 Cr",
+    initials: "RM",
   },
   {
-    id: "export",
-    name: "Export & Trade",
-    image: "ship",
-    challenge: "Pre-shipment liquidity gaps on global orders.",
-    solution: "Packing credit, LC & export bill discounting.",
-    growthPotential: "Trade in 35+ countries",
+    id: "t2",
+    quote: "They coordinated project finance for our cold-chain terminal — ₹45 Cr sanctioned with optimal lease-rental terms.",
+    author: "Priya Nair",
+    role: "Founder & CEO",
+    company: "LogiChain Warehousing",
+    category: "Infrastructure",
+    fundingAmount: "₹45 Cr",
+    initials: "PN",
   },
   {
-    id: "warehousing",
-    name: "Warehousing",
-    image: "warehouse",
-    challenge: "High capex for cold-chain & compliance.",
-    solution: "Project finance against future lease contracts.",
-    growthPotential: "25% higher rental yield",
+    id: "t3",
+    quote: "From CGTMSE cover to invoice discounting, Ascendra handled everything. We scaled processing 2.5× in one season.",
+    author: "Arjun Desai",
+    role: "Co-Founder",
+    company: "NurtureAgro Foods",
+    category: "Agriculture",
+    fundingAmount: "₹12 Cr",
+    initials: "AD",
   },
   {
-    id: "textiles",
-    name: "Textiles",
-    image: "scissors",
-    challenge: "Seasonal cotton price swings drain margins.",
-    solution: "Cash credit + TUFS subsidy schemes.",
-    growthPotential: "18% margin improvement",
-  },
-  {
-    id: "trading",
-    name: "Wholesale & Trading",
-    image: "store",
-    challenge: "Bulk deals need instant cash payouts.",
-    solution: "Quick-sanction demand loans & OD.",
-    growthPotential: "15% bulk discounts secured",
-  },
-  {
-    id: "startups",
-    name: "Startups",
-    image: "rocket",
-    challenge: "High burn, no assets for traditional loans.",
-    solution: "Venture debt mapped to MRR & contracts.",
-    growthPotential: "9–12 months extra runway",
-  },
-  {
-    id: "agriculture",
-    name: "Agriculture",
-    image: "sprout",
-    challenge: "Delayed mandi payouts & post-harvest costs.",
-    solution: "AIF subsidies + warehouse receipt finance.",
-    growthPotential: "30% faster cash flow",
-  },
-  {
-    id: "msmes",
-    name: "MSMEs",
-    image: "network",
-    challenge: "Rigid audits block low-interest bank lines.",
-    solution: "CGTMSE cover + priority MSME credit.",
-    growthPotential: "48-hour sanction cycles",
+    id: "t4",
+    quote: "Non-dilutive venture debt extended our runway 12 months. We hit $3.5M ARR before our next equity round.",
+    author: "Kavya Srinivasan",
+    role: "CEO",
+    company: "Zenith TechLabs",
+    category: "Technology",
+    fundingAmount: "₹8 Cr",
+    initials: "KS",
   },
 ];
 

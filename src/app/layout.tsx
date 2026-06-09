@@ -1,22 +1,16 @@
 import type { Metadata } from "next";
-import { Outfit, Playfair_Display } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 
 const sans = Outfit({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["300", "400", "500", "600", "700", "800"],
-});
-
-const display = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
-  title: "Ascendra Advisory | Premium Business Financing & Private Credit",
-  description: "Structured corporate financing solutions to optimize cash flow, unlock expansion opportunities, and scale with confidence. Private credit, trade finance, and technology-driven advisory.",
+  title: "Ascendra Advisory | Institutional Debt Structuring",
+  description: "Capital solutions for ambitious businesses. Structured financing from ₹50 Lakhs to ₹250+ Crores across MSMEs, startups, manufacturers and infrastructure projects.",
   keywords: "business financing, private credit, working capital, trade finance, bill discounting, venture debt, project finance, CGTMSE, MSME loans, Ascendra Advisory",
   authors: [{ name: "Ascendra Advisory" }],
   openGraph: {
@@ -76,7 +70,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${sans.variable} ${display.variable} h-full antialiased scroll-smooth`}
+      className={`${sans.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full bg-navy-dark text-foreground flex flex-col font-sans">
         {/* Schema markup */}

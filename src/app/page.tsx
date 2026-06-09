@@ -3,55 +3,27 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import TrustMetrics from "@/components/TrustMetrics";
 import About from "@/components/About";
-import Certifications from "@/components/Certifications";
 import SolutionsHub from "@/components/SolutionsHub";
 import IndustryShowcase from "@/components/IndustryShowcase";
-import EligibilityTool from "@/components/EligibilityTool";
-import CaseStudies from "@/components/CaseStudies";
+import FundingJourney from "@/components/FundingJourney";
+import Testimonials from "@/components/Testimonials";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
 import Footer from "@/components/Footer";
-import BackgroundCanvas from "@/components/BackgroundCanvas";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-navy-dark overflow-x-hidden antialiased relative">
-      {/* Global 3D Particle backdrop canvas */}
-      <BackgroundCanvas />
-
-      {/* Navigation Layer */}
+    <div className="flex flex-col min-h-screen bg-navy-dark overflow-x-hidden">
       <Header />
-
-      {/* Main Structural Flow */}
       <main className="flex-1">
-        {/* Hero Area + Interactive Ecosystem */}
         <Hero />
-
-        {/* Scroll counters trust stats */}
         <TrustMetrics />
-
-        {/* About Ascendra Section */}
         <About />
-
-        {/* Institutional Compliance Certifications */}
-        <Certifications />
-
-        {/* Product Explorer Hub */}
         <SolutionsHub />
-
-        {/* Sector Showcase flips */}
         <IndustryShowcase />
-
-        {/* Real-time Diagnostics calculator */}
-        <EligibilityTool />
-
-        {/* Client Outcomes carousels */}
-        <CaseStudies />
-
-        {/* Appointment scheduler Intake terminal */}
+        <FundingJourney />
+        <Testimonials />
         <LeadCaptureForm />
       </main>
-
-      {/* Footer disclaimer and newsletter */}
       <Footer />
     </div>
   );
