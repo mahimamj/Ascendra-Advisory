@@ -85,7 +85,7 @@ export default function LeadCaptureForm() {
         particleCount: 120,
         spread: 80,
         origin: { y: 0.6 },
-        colors: ["#D4AF37", "#E8C86A", "#041A3A", "#FFFFFF"]
+        colors: ["#D4AF37", "#E8C86A", "#0F2C59", "#FFFFFF"]
       });
     }
   };
@@ -98,7 +98,7 @@ Details:
 - Turnovers: ${turnover} Cr approx.
 - Scheduled Slot: ${selectedDay} at ${selectedSlot}.
 Please assign a Credit Structuring Director to call me.`;
-    return `https://wa.me/912268428888?text=${encodeURIComponent(message)}`;
+    return `https://wa.me/919582876556?text=${encodeURIComponent(message)}`;
   };
 
   return (
@@ -135,7 +135,7 @@ Please assign a Credit Structuring Director to call me.`;
                     Underwriting Office Line
                   </span>
                   <span className="text-white font-semibold text-sm">
-                    +91-22-6842-8888
+                    +91 958-287-6556
                   </span>
                 </div>
               </div>
@@ -149,7 +149,7 @@ Please assign a Credit Structuring Director to call me.`;
                     Advisory Inbox
                   </span>
                   <span className="text-white font-semibold text-sm">
-                    structuring@ascendraadvisory.com
+                    structuring@ascendraadvisory.ai
                   </span>
                 </div>
               </div>

@@ -17,14 +17,12 @@ export default function Header() {
   }, []);
 
   const navLinks = [
+    { name: "About", href: "#about" },
     { name: "Solutions", href: "#solutions" },
     { name: "Compliance", href: "#certifications" },
     { name: "Industries", href: "#industries" },
-    { name: "Advantage", href: "#advantage" },
     { name: "Eligibility Calculator", href: "#calculator" },
-    { name: "Gov Schemes", href: "#schemes" },
     { name: "Case Studies", href: "#cases" },
-    { name: "Insights", href: "#insights" },
   ];
 
   return (

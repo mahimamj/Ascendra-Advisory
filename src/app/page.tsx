@@ -2,24 +2,18 @@ import React from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import TrustMetrics from "@/components/TrustMetrics";
+import About from "@/components/About";
 import Certifications from "@/components/Certifications";
 import SolutionsHub from "@/components/SolutionsHub";
 import IndustryShowcase from "@/components/IndustryShowcase";
-import AdvantageTimeline from "@/components/AdvantageTimeline";
 import EligibilityTool from "@/components/EligibilityTool";
-import SchemeExplorer from "@/components/SchemeExplorer";
 import CaseStudies from "@/components/CaseStudies";
-import InsightsHub from "@/components/InsightsHub";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
 import Footer from "@/components/Footer";
-import GmailFormModal from "@/components/GmailFormModal";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-navy-dark overflow-x-hidden antialiased">
-      {/* 3-second delayed Gmail intake modal */}
-      <GmailFormModal />
-
       {/* Navigation Layer */}
       <Header />
 
@@ -31,6 +25,9 @@ export default function Home() {
         {/* Scroll counters trust stats */}
         <TrustMetrics />
 
+        {/* About Ascendra Section */}
+        <About />
+
         {/* Institutional Compliance Certifications */}
         <Certifications />
 
@@ -40,20 +37,11 @@ export default function Home() {
         {/* Sector Showcase flips */}
         <IndustryShowcase />
 
-        {/* Advisory Timeline lines */}
-        <AdvantageTimeline />
-
         {/* Real-time Diagnostics calculator */}
         <EligibilityTool />
 
-        {/* Subsidies Explorer filter grids */}
-        <SchemeExplorer />
-
         {/* Client Outcomes carousels */}
         <CaseStudies />
-
-        {/* Article briefings Hub */}
-        <InsightsHub />
 
         {/* Appointment scheduler Intake terminal */}
         <LeadCaptureForm />

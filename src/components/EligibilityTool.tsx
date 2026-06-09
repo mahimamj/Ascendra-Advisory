@@ -21,6 +21,28 @@ export default function EligibilityTool() {
   const [fundingMax, setFundingMax] = useState(3.3);
   const [recommendedProducts, setRecommendedProducts] = useState<string[]>([]);
 
+  // 3D Dashboard Tilt State
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+  const [isCardHovered, setIsCardHovered] = useState(false);
+
+  const handleMouseMoveCard = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const maxTilt = 6; // Max degrees of rotation
+    
+    const rx = ((centerY - y) / centerY) * maxTilt;
+    const ry = ((x - centerX) / centerX) * maxTilt;
+    
+    setRotateX(rx);
+    setRotateY(ry);
+  };
+
   // Scoring engine logic
   useEffect(() => {
     let baseScore = 650;
@@ -255,25 +277,53 @@ export default function EligibilityTool() {
           </div>
 
           {/* Outputs / Live Dashboard Column */}
-          <div className="lg:col-span-6 glass-panel p-6 md:p-8 rounded-2xl flex flex-col justify-between border-gold-premium/30 bg-gradient-to-br from-navy-royal/40 to-navy-dark relative overflow-hidden">
+          <div 
+            onMouseMove={handleMouseMoveCard}
+            onMouseEnter={() => setIsCardHovered(true)}
+            onMouseLeave={() => {
+              setIsCardHovered(false);
+              setRotateX(0);
+              setRotateY(0);
+            }}
+            className="lg:col-span-6 glass-panel p-6 md:p-8 rounded-2xl flex flex-col justify-between border-gold-premium/30 bg-gradient-to-br from-navy-royal/40 to-navy-dark relative overflow-hidden"
+            style={{
+              transformStyle: "preserve-3d",
+              transform: isCardHovered 
+                ? `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`
+                : `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`,
+              boxShadow: isCardHovered
+                ? "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.15)"
+                : "0 10px 30px -15px rgba(0, 0, 0, 0.5), 0 0 0px rgba(0, 0, 0, 0)",
+              transition: isCardHovered ? "transform 0.05s ease-out, box-shadow 0.2s ease" : "transform 0.5s ease-out, box-shadow 0.5s ease"
+            }}
+          >
             
             {/* Live indicator circle glow */}
             <div className="absolute -top-10 -right-10 w-44 h-44 bg-gold-premium/10 rounded-full blur-3xl pointer-events-none" />
 
-            <div>
-              <h3 className="font-display font-semibold text-white text-lg tracking-wide border-b border-gold-premium/15 pb-3 flex items-center gap-2">
+            {/* Floating 3D perspective rings */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 z-0">
+              <div className="w-64 h-64 rounded-full border border-gold-premium border-dashed animate-spin absolute" style={{ transform: "rotateX(70deg) rotateY(15deg) rotateZ(0deg)", animationDuration: "14s" }} />
+              <div className="w-52 h-52 rounded-full border border-gold-champagne/45 absolute animate-spin" style={{ transform: "rotateX(70deg) rotateY(-15deg) rotateZ(0deg)", animationDuration: "18s", animationDirection: "reverse" }} />
+            </div>
+
+            <div className="relative z-10" style={{ transform: "translateZ(10px)", transformStyle: "preserve-3d" }}>
+              <h3 
+                className="font-display font-semibold text-white text-lg tracking-wide border-b border-gold-premium/15 pb-3 flex items-center gap-2"
+                style={{ transform: "translateZ(15px)" }}
+              >
                 <Compass className="w-5 h-5 text-gold-premium" />
                 Live Structuring Assessment
               </h3>
 
               {/* Score radial/linear representation */}
-              <div className="py-6 flex flex-col items-center justify-center border-b border-gold-premium/10 mb-6">
+              <div className="py-6 flex flex-col items-center justify-center border-b border-gold-premium/10 mb-6" style={{ transform: "translateZ(20px)", transformStyle: "preserve-3d" }}>
                 <span className="text-[10px] font-mono tracking-widest text-silver-soft/50 uppercase font-bold mb-1">
                   Credit Suitability Rating
                 </span>
                 
                 {/* Score Big Display */}
-                <div className="relative flex items-center justify-center">
+                <div className="relative flex items-center justify-center" style={{ transform: "translateZ(30px)" }}>
                   <div className="text-5xl md:text-6xl font-display font-black text-white tracking-tight flex items-baseline">
                     {score}
                     <span className="text-xs font-mono text-silver-soft/40 ml-1 font-normal">/900</span>
@@ -281,14 +331,30 @@ export default function EligibilityTool() {
                 </div>
 
                 {/* Score Status Badge */}
-                <div className={`mt-3 px-3 py-1 rounded-full text-xs font-semibold border ${confidenceBg} ${confidenceColor}`}>
+                <div className={`mt-3 px-3 py-1 rounded-full text-xs font-semibold border ${confidenceBg} ${confidenceColor}`} style={{ transform: "translateZ(25px)" }}>
                   {confidence} Approval Confidence
+                </div>
+
+                {/* 3D-like Suitability Bar */}
+                <div 
+                  className="w-full max-w-xs h-3 bg-navy-dark/95 border border-gold-premium/20 rounded-full relative overflow-hidden mt-6 shadow-inner"
+                  style={{ transform: "translateZ(25px)" }}
+                >
+                  <div 
+                    className="h-full bg-gold-gradient transition-all duration-1000 ease-out relative rounded-full"
+                    style={{ width: `${((score - 300) / 600) * 100}%` }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/25 via-transparent to-transparent" />
+                  </div>
                 </div>
               </div>
 
               {/* Funding Range & Recommendations */}
-              <div className="space-y-4">
-                <div className="flex justify-between items-center bg-navy-dark/45 border border-gold-premium/10 p-4 rounded-xl">
+              <div className="space-y-4" style={{ transform: "translateZ(15px)", transformStyle: "preserve-3d" }}>
+                <div 
+                  className="flex justify-between items-center bg-navy-dark/45 border border-gold-premium/10 p-4 rounded-xl"
+                  style={{ transform: "translateZ(10px)" }}
+                >
                   <div>
                     <span className="text-[9px] font-mono font-bold text-silver-soft/50 uppercase tracking-widest block">
                       Potential Debt Capacity
@@ -297,16 +363,16 @@ export default function EligibilityTool() {
                       ₹{fundingMin} Cr – ₹{fundingMax} Cr
                     </span>
                   </div>
-                  <Award className="w-8 h-8 text-gold-premium/40" />
+                  <Award className="w-8 h-8 text-gold-premium/40 animate-pulse" />
                 </div>
 
-                <div>
+                <div style={{ transform: "translateZ(10px)" }}>
                   <span className="text-[9px] font-mono font-bold text-silver-soft/50 uppercase tracking-widest block mb-2">
                     Recommended Debt Instruments
                   </span>
                   <div className="flex flex-col gap-2">
                     {recommendedProducts.map((p, pi) => (
-                      <div key={pi} className="flex items-center gap-2 text-xs text-silver-soft/90 bg-navy-royal/30 p-2.5 rounded border border-gold-premium/5">
+                      <div key={pi} className="flex items-center gap-2 text-xs text-silver-soft/90 bg-navy-royal/30 p-2.5 rounded border border-gold-premium/5 hover:border-gold-premium/30 transition-colors">
                         <div className="w-1.5 h-1.5 rounded-full bg-gold-premium shrink-0" />
                         {p}
                       </div>
@@ -317,7 +383,7 @@ export default function EligibilityTool() {
             </div>
 
             {/* Call to Action */}
-            <div className="mt-8 pt-5 border-t border-gold-premium/15">
+            <div className="mt-8 pt-5 border-t border-gold-premium/15 relative z-10" style={{ transform: "translateZ(20px)" }}>
               <button
                 onClick={handleApplyNow}
                 className="w-full glow-btn bg-gold-gradient text-navy-dark py-3.5 rounded font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-gold-glow active:scale-95 transition-transform"

@@ -31,10 +31,13 @@ export interface FinancingCategory {
   title: string;
   description: string;
   icon: string;
+  image?: string;
+  whyChoose?: string[];
   items: {
     code: string;
     name: string;
     description: string;
+    image?: string;
     features: string[];
   }[];
 }
@@ -86,32 +89,37 @@ export interface BlogPost {
 export const FINANCING_SOLUTIONS: FinancingCategory[] = [
   {
     id: "working-capital",
-    title: "Working Capital & Trade Finance",
-    description: "Optimize daily liquidity and secure import-export trades with custom structured capital lines.",
-    icon: "ShieldAlert", // Map to icons dynamically
+    title: "Working Capital Financing",
+    description: "OD/CC Credit Lines up to ₹250 Crores. Keep your business running without a pause. Maintain seamless business operations and meet short-term financial needs.",
+    icon: "ShieldAlert",
+    image: "/images/working_capital.png",
+    whyChoose: [
+      "Customized Credit Limits | Tailored lines of credit structured based on your annual business turnover",
+      "Interest on Usage Only | Pay interest strictly on the capital utilized, not the entire sanctioned limit",
+      "Easy Annual Renewal | Streamlined, hassle-free annual renewal process to keep funding active",
+      "Versatile Borrower Matching | Ideal structuring optimized for SMEs, traders, and manufacturing units"
+    ],
     items: [
       { code: "OD", name: "Overdraft Limit", description: "Flexible credit line accessed as needed, paying interest only on utilized capital.", features: ["Interest only on used amount", "No lock-in periods", "Secured against property or liquid assets"] },
       { code: "CC", name: "Cash Credit", description: "Primary funding facility backed by stocks, debtors, and raw material inventories.", features: ["High limit based on current assets", "Easy renewal cycles", "Ideal for wholesale and manufacturing"] },
       { code: "LC", name: "Letter of Credit", description: "Bank-backed payment undertaking guaranteeing international and domestic vendor terms.", features: ["Mitigates global trade risks", "Improves supplier payment terms", "Standardized ICC banking rules"] },
       { code: "BG", name: "Bank Guarantee", description: "Institutional assurance validating project tenders, performance contracts, and financial defaults.", features: ["Builds high client trust", "Avoids blocking cash margins", "Customized validity durations"] },
       { code: "WCTL", name: "Working Capital Term Loan", description: "Structured medium-term loan to clear working capital deficits and inventory build-up gaps.", features: ["Fixed monthly repayment models", "Longer tenures (1-3 years)", "Favorable for scaling business seasons"] },
-      { code: "WCDL", name: "Working Capital Demand Loan", description: "Short-term funding line callable at short notice with lower financing rates.", features: ["Cheaper than conventional term loans", "Flexible roll-over terms", "Best for immediate arbitrage inventory deals"] }
-    ]
-  },
-  {
-    id: "invoice-financing",
-    title: "Invoice Financing & Bill Discounting",
-    description: "Convert accounts receivables into immediate cash to eliminate 60-90 day credit cycle bottlenecks.",
-    icon: "FileSpreadsheet",
-    items: [
-      { code: "BD", name: "Bill Discounting", description: "Immediate disbursement against trade bills approved by credit-worthy corporate buyers.", features: ["Zero balance-sheet debt weight", "Up to 90% of invoice values instantly", "Confidential discounting options"] }
+      { code: "WCDL", name: "Working Capital Demand Loan", description: "Short-term funding line callable at short notice with lower financing rates.", features: ["Cheaper than conventional term loans", "Flexible roll-over terms", "Best for immediate arbitrage inventory deals"] },
+      { code: "RMF", name: "Raw Material Funding", description: "Ensure your production lines stay active. Capitalize on bulk purchase discounts and secure better terms with suppliers.", image: "/images/raw_material_funding.png", features: ["Rapid fund disbursement and streamlined application", "Flexible financing structures", "Capitalize on bulk purchase discounts", "Expert industry insight for terms optimization"] }
     ]
   },
   {
     id: "business-growth",
-    title: "Business Growth Financing",
-    description: "Unsecured and structured financing to fund corporate expansion, mergers, or marketing scale-ups.",
+    title: "Business Financing",
+    description: "Unsecured business finance up to ₹1 Crore for fast-growing enterprises. Empowering ambitions, fuelling businesses.",
     icon: "TrendingUp",
+    image: "/images/business_financing.png",
+    whyChoose: [
+      "Easy application & quick disbursal | Fast, simple & hassle-free",
+      "Customised for SMEs, traders, professionals | Tailored solutions for every business need",
+      "Funds for expansion, inventory, or working capital | Fuel growth. Manage better. Scale faster."
+    ],
     items: [
       { code: "BL", name: "Business Loans", description: "Unsecured high-ticket growth loans designed for cash-rich enterprises needing quick cap-ex.", features: ["No collateral requirements", "Sanction based on cash-flow health", "Disbursements in 48-72 hours"] },
       { code: "BF", name: "Bridge Funding", description: "Short-term temporary liquidity bridging the gap before equity rounds or long-term debt sanctions.", features: ["Repayable on main funding round close", "Rapid approval frameworks", "Customized covenants for venture-backed teams"] },
@@ -122,32 +130,74 @@ export const FINANCING_SOLUTIONS: FinancingCategory[] = [
   {
     id: "asset-financing",
     title: "Asset & Machinery Financing",
-    description: "Acquire high-tech industrial hardware or warehouse setups without draining operating reserves.",
+    description: "Upgrade your machinery, boost your output. Acquire high-tech industrial hardware, setup machinery, or warehouse assets without draining operating reserves.",
     icon: "Cpu",
+    image: "/images/machinery_financing.png",
+    whyChoose: [
+      "New & Used Machinery | Funding available for both brand-new setups and pre-owned high-performance industrial machinery",
+      "Fast Approvals & Custom EMIs | Swift processing with customized repayment terms structured to match your production cycles",
+      "Boost Production Capacity | Upgrade equipment to increase output and enhance manufacturing efficiency",
+      "Targeted MSME Structuring | Tailored credit structures optimized specifically for factories, workshops, and MSME units"
+    ],
     items: [
-      { code: "ML", name: "Machinery Loans", description: "Equipment-backed debt facilities for installing advanced industrial machinery.", features: ["Funding up to 85% of machinery invoices", "Direct manufacturer payouts", "Tenures matching asset depreciation"] },
+      { code: "ML", name: "Machinery Loans", description: "Equipment-backed debt facilities for installing advanced industrial machinery (new or used).", features: ["Funding up to 85% of machinery invoices", "Direct manufacturer payouts", "Tenures matching asset depreciation"] },
       { code: "EF", name: "Equipment Funding", description: "Flexible asset finance covering commercial fleets, testing gear, and IT infrastructures.", features: ["Preserves operational liquid funds", "Tax-deductible leasing option modules", "Easy hardware upgrade options"] },
-      { code: "WF", name: "Warehouse Finance", description: "Specialized financing for setting up state-of-the-art cold chains and storage systems.", features: ["Structured mortgage options", "High loan-to-value limits", "Assists logistics and distribution scale"] }
+      { code: "WF", name: "Warehouse Financing", description: "Expand Your Storage Capacity. We provide financial support to build, modernize, or expand your warehouse.", image: "/images/warehouse_financing.png", features: ["High Finance Amounts up to ₹10 Cr", "35% subsidised or ₹10 Cr (whichever is lower)", "Quick approval process with minimal documentation", "Build, modernize, or expand storage capacity"] },
+      { code: "LRD", name: "Lease Rental Discounting (LRD)", description: "Monetize Your Rental Income. Lease rental discounting at 90% of rent with fast approvals.", image: "/images/lease_rental.png", features: ["Lease Rental Discounting at 90% of rent", "Tailored LRD solutions with fast loan approvals", "Streamlined application and transparent process", "Monetize rental cash flow streams"] }
+    ]
+  },
+  {
+    id: "sector-specific",
+    title: "Sector-Specific Financing Solutions",
+    description: "Tailored debt products designed around the operational cycle and unique cash flow patterns of specific business sectors.",
+    icon: "FileSpreadsheet",
+    image: "/images/textile_financing.png",
+    whyChoose: [
+      "Structured to match specific trade and inventory timelines",
+      "Moratoriums aligned with seasonal agricultural harvests",
+      "Lender matching based on sector-specific priority lists",
+      "Pre-vetted structures that expedite loan approval times"
+    ],
+    items: [
+      { code: "MF", name: "Manufacturing Credit", description: "Custom raw material and trade cycle credit lines to keep operations moving without interruptions.", features: ["Custom Overdraft structures", "Protects operational cash flow", "Highly tailored to raw steel & components purchasing"] },
+      { code: "EX", name: "Export & Trade Credit", description: "Structured packing credits and bill purchase facilities to scale cross-border order books.", features: ["Pre and post shipment lines", "Mitigates exchange-rate shifts", "Global partner banking corridors"] },
+      { code: "WH", name: "Warehouse & Cold Chain Finance", description: "Specialized long-term funding secured against future lease contracts or stored inventory receipts.", features: ["eNWR-backed capital options", "High loan-to-value allocations", "Assists logistics distribution scale"] },
+      { code: "TX", name: "Textile/Garments Financing", description: "Fueling Fabric to Fashion. Structured working capital and machinery finance to scale textile/garment businesses.", image: "/images/textile_financing.png", features: ["Textile-MSME Focused Structuring", "Subsidy Support up to ₹25 Lakh", "Machinery & Working Capital Financing", "Fast Disbursal via Multi-Lender Access"] },
+      { code: "APF", name: "Agri Project Financing", description: "Empowering agricultural productivity. Fast disbursal with minimal bureaucracy and flexible structuring.", image: "/images/agri_financing.png", features: ["Rapid sanction via multi-lender network", "Flexible structuring & repayment", "Transparent, borrower-centric driven financing", "Minimal bureaucracy disbursals"] }
     ]
   },
   {
     id: "startup-project",
-    title: "Startup & Project Finance",
-    description: "Tailored structures for venture-stage companies and heavy greenfield infrastructure setups.",
+    title: "Startup & Project Financing",
+    description: "Fuel your startup dreams with tailored structures. Unsecured growth funding options and project finance built for early-revenue startups and greenfield setups.",
     icon: "Compass",
+    image: "/images/startup_financing.png",
+    whyChoose: [
+      "Unsecured Growth Funding | Access hassle-free, non-dilutive unsecured funding options structured to protect your equity",
+      "Fast-Track Capital Disbursal | Swift processing and approval cycles designed to launch or expand operations without delay",
+      "Founder-Friendly EMIs | Highly flexible repayment options and customized structures mapped to your milestones",
+      "Broad Sector Eligibility | Credit programs optimized specifically for tech, service, and product-based startups"
+    ],
     items: [
       { code: "SL", name: "Startup Loans", description: "Tailored debt options designed for early-revenue startups backed by institutional VCs.", features: ["Pre-approved covenants", "Supports working capital runway", "Non-dilutive growth support"] },
       { code: "FF", name: "Founder Funding", description: "Alternative capital models matching founder milestones and cash-flow horizons.", features: ["No personal guarantees", "Repayments linked to revenue velocities", "Flexible scaling caps"] },
-      { code: "PF", name: "Project Finance", description: "Off-balance sheet funding structured around long-term industrial projects and infrastructure assets.", features: ["Non-recourse or limited-recourse models", "Consortium debt structuring", "Repayment tied directly to project yield"] }
+      { code: "PF", name: "Project Finance", description: "Fuel your vision with tailored Project Finance up to ₹250 Crores or more, built for large-scale sectors and green field projects.", image: "/images/project_finance.png", features: ["Financing up to ₹250 Crores or more", "Built for large-scale business sectors", "Cash-flow-based structured repayment options", "Finance Support for Green Field Projects"] }
     ]
   },
   {
     id: "gov-backed",
-    title: "Government Backed Funding",
-    description: "Tap into sovereign credit guarantees and interest subsidy schemes dedicated to MSME growth.",
+    title: "Government-Backed & Collateral-Free Funding",
+    description: "Tap into sovereign credit guarantees (like CGTMSE up to ₹10 Crores) and interest subsidy schemes dedicated to MSME growth.",
     icon: "Award",
+    image: "/images/cgtmse_financing.png",
+    whyChoose: [
+      "Sovereign guaranteed cover removes physical collateral requirements",
+      "Highly subsidized interest rates and lower processing fees",
+      "Priority processing queues inside partner public sector banks",
+      "Supports sustainable, green, and tech-upgradation initiatives"
+    ],
     items: [
-      { code: "CGTMSE", name: "CGTMSE Collateral-Free Cover", description: "Sovereign guaranteed loans for micro and small enterprises up to ₹5 Crores without collateral.", features: ["Government of India backed trust cover", "Reduced interest parameters", "Available for retail, service, and manufacturing"] },
+      { code: "CGTMSE", name: "CGTMSE Collateral-Free Cover", description: "100% collateral-free loans backed by the Govt. of India & SIDBI, up to ₹10 Crores. Ideal for startups, MSMEs & first-time borrowers.", image: "/images/cgtmse_financing.png", features: ["100% collateral-free loan up to ₹10 Crores", "Backed by Govt. of India & SIDBI", "Ideal for startups, MSMEs & first-time borrowers", "Quick processing & expert guidance"] },
       { code: "SLF", name: "Subsidy Linked Financing", description: "Credit-linked capital subsidies for technology upgrades and environment-friendly units.", features: ["Direct capital subsidies up to 15%", "Lower net borrowing cost ratios", "Speeds up green manufacturing migration"] },
       { code: "MSME", name: "MSME Scheme Lines", description: "Special priority sector lending programs offering faster approvals and subsidized interest.", features: ["Priority processing queues", "Lower processing fee margins", "Special terms for women-led ventures"] }
     ]

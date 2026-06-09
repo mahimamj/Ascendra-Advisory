@@ -19,6 +19,40 @@ const ICON_MAP: Record<string, any> = {
 export default function IndustryShowcase() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
+  // 3D Card Tilt State
+  const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+  const [spotlightX, setSpotlightX] = useState(0);
+  const [spotlightY, setSpotlightY] = useState(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, cardId: string) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    setSpotlightX(x);
+    setSpotlightY(y);
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const maxTilt = 10; // Max rotation degrees
+    
+    const rx = ((centerY - y) / centerY) * maxTilt;
+    const ry = ((x - centerX) / centerX) * maxTilt;
+    
+    setRotateX(rx);
+    setRotateY(ry);
+    setHoveredCardId(cardId);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredCardId(null);
+    setRotateX(0);
+    setRotateY(0);
+  };
+
   return (
     <section id="industries" className="py-24 bg-navy-dark relative border-t border-gold-premium/10">
       {/* Background aesthetics */}
@@ -46,14 +80,41 @@ export default function IndustryShowcase() {
           {INDUSTRIES_DATA.map((ind, idx) => {
             const IconComp = ICON_MAP[ind.image] || HelpCircle;
             const isHovered = hoveredId === ind.id;
+            const isCardHovered = hoveredCardId === ind.id;
 
             return (
               <div
                 key={ind.id}
                 onMouseEnter={() => setHoveredId(ind.id)}
-                onMouseLeave={() => setHoveredId(null)}
-                className="relative h-[320px] rounded-2xl cursor-pointer overflow-hidden transition-all duration-500 shadow-lg group bg-navy-royal/20 border border-gold-premium/10"
+                onMouseLeave={() => {
+                  setHoveredId(null);
+                  handleMouseLeave();
+                }}
+                onMouseMove={(e) => handleMouseMove(e, ind.id)}
+                className="relative h-[320px] rounded-2xl cursor-pointer overflow-hidden shadow-lg group bg-navy-royal/20 border border-gold-premium/10"
+                style={{
+                  transformStyle: "preserve-3d",
+                  transform: isCardHovered 
+                    ? `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`
+                    : `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`,
+                  boxShadow: isCardHovered
+                    ? "0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 175, 55, 0.15)"
+                    : "0 10px 30px -15px rgba(0, 0, 0, 0.5), 0 0 0px rgba(0, 0, 0, 0)",
+                  transition: isCardHovered 
+                    ? "transform 0.05s ease-out, box-shadow 0.2s ease"
+                    : "transform 0.5s ease-out, box-shadow 0.5s ease"
+                }}
               >
+                {/* Dynamic 3D spotlight highlight */}
+                {isCardHovered && (
+                  <div 
+                    className="absolute inset-0 pointer-events-none transition-opacity duration-300 opacity-100 z-10"
+                    style={{
+                      background: `radial-gradient(circle 180px at ${spotlightX}px ${spotlightY}px, rgba(232, 200, 106, 0.08), transparent)`
+                    }}
+                  />
+                )}
+
                 {/* Visual Glassmorphic Border */}
                 <div className="absolute inset-0 border border-transparent group-hover:border-gold-premium/30 rounded-2xl transition-colors duration-500 pointer-events-none z-30" />
 
@@ -62,12 +123,16 @@ export default function IndustryShowcase() {
                   className={`absolute inset-0 p-6 flex flex-col justify-between transition-all duration-500 z-10 ${
                     isHovered ? "opacity-0 scale-95 translate-y-4 pointer-events-none" : "opacity-100 scale-100 translate-y-0"
                   }`}
+                  style={{ transform: "translateZ(15px)", transformStyle: "preserve-3d" }}
                 >
-                  <div className="w-12 h-12 rounded-xl bg-navy-dark/90 border border-gold-premium/15 flex items-center justify-center text-gold-champagne group-hover:scale-110 transition-all duration-300">
+                  <div 
+                    className="w-12 h-12 rounded-xl bg-navy-dark/90 border border-gold-premium/15 flex items-center justify-center text-gold-champagne group-hover:scale-110 transition-all duration-300"
+                    style={{ transform: "translateZ(25px)" }}
+                  >
                     <IconComp className="w-6 h-6 stroke-[1.8]" />
                   </div>
                   
-                  <div>
+                  <div style={{ transform: "translateZ(20px)" }}>
                     <h3 className="font-display font-semibold text-white text-lg tracking-wide mb-2 leading-tight group-hover:text-gold-champagne transition-colors">
                       {ind.name}
                     </h3>
@@ -83,8 +148,9 @@ export default function IndustryShowcase() {
                   className={`absolute inset-0 p-6 bg-gradient-to-b from-navy-royal to-navy-dark/95 flex flex-col justify-between transition-all duration-500 z-20 ${
                     isHovered ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-105 -translate-y-4 pointer-events-none"
                   }`}
+                  style={{ transform: "translateZ(10px)", transformStyle: "preserve-3d" }}
                 >
-                  <div className="flex flex-col gap-3.5">
+                  <div className="flex flex-col gap-3.5" style={{ transform: "translateZ(15px)" }}>
                     {/* Challenge Block */}
                     <div>
                       <span className="text-[9px] font-mono font-bold text-red-400 uppercase tracking-widest block mb-1">
@@ -107,7 +173,7 @@ export default function IndustryShowcase() {
                   </div>
 
                   {/* Growth stats */}
-                  <div className="border-t border-gold-premium/15 pt-3 mt-auto">
+                  <div className="border-t border-gold-premium/15 pt-3 mt-auto" style={{ transform: "translateZ(20px)" }}>
                     <span className="text-[9px] font-mono font-bold text-emerald-400 uppercase tracking-widest block">
                       Growth Impact
                     </span>

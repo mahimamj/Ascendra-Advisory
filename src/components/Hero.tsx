@@ -88,30 +88,41 @@ export default function Hero() {
     };
     window.addEventListener("resize", handleResize);
 
-    // Particle definition
+    // 3D Particle definition
     interface Particle {
       x: number;
       y: number;
+      z: number;
       size: number;
-      speedY: number;
       speedX: number;
+      speedY: number;
+      speedZ: number;
       alpha: number;
-      fadeSpeed: number;
+      type: "rupee" | "coin" | "arrow" | "star";
+      rotation: number;
+      rotationSpeed: number;
     }
 
     const particles: Particle[] = [];
-    const spawnParticle = (): Particle => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      size: Math.random() * 1.5 + 0.5,
-      speedY: -(Math.random() * 0.4 + 0.1),
-      speedX: (Math.random() - 0.5) * 0.3,
-      alpha: Math.random() * 0.5 + 0.1,
-      fadeSpeed: Math.random() * 0.003 + 0.001,
-    });
+    const spawnParticle = (startFar: boolean = false): Particle => {
+      const types: ("rupee" | "coin" | "arrow" | "star")[] = ["rupee", "coin", "arrow", "star"];
+      return {
+        x: (Math.random() - 0.5) * width * 1.5,
+        y: (Math.random() - 0.5) * height * 1.5,
+        z: startFar ? Math.random() * 900 + 100 : 1000,
+        size: Math.random() * 1.5 + 0.8,
+        speedX: (Math.random() - 0.5) * 0.5,
+        speedY: (Math.random() - 0.5) * 0.5 - 0.2,
+        speedZ: -(Math.random() * 1.5 + 0.5),
+        alpha: Math.random() * 0.4 + 0.1,
+        type: types[Math.floor(Math.random() * types.length)],
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.015,
+      };
+    };
 
-    for (let i = 0; i < 60; i++) {
-      particles.push(spawnParticle());
+    for (let i = 0; i < 50; i++) {
+      particles.push(spawnParticle(true));
     }
 
     // Light trails ribbons
@@ -132,7 +143,7 @@ export default function Hero() {
 
     const animate = () => {
       // Clear slightly to create motion blur trails
-      ctx.fillStyle = "rgba(4, 26, 58, 0.25)";
+      ctx.fillStyle = "rgba(15, 44, 89, 0.25)";
       ctx.fillRect(0, 0, width, height);
 
       // Draw light trails (ribbons)
@@ -158,22 +169,61 @@ export default function Hero() {
         }
       });
 
-      // Draw particles
+      // Draw projected 3D particles
       particles.forEach((p, idx) => {
-        ctx.beginPath();
-        ctx.fillStyle = `rgba(232, 200, 106, ${p.alpha})`;
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Update physics
-        p.y += p.speedY;
+        p.z += p.speedZ;
         p.x += p.speedX;
-        p.alpha -= p.fadeSpeed;
+        p.y += p.speedY;
+        p.rotation += p.rotationSpeed;
 
-        if (p.alpha <= 0 || p.y < 0) {
-          particles[idx] = spawnParticle();
-          particles[idx].y = height + 10;
+        if (p.z <= 10 || p.z > 1050) {
+          particles[idx] = spawnParticle(false);
+          return;
         }
+
+        const fov = 300;
+        const scale = fov / (fov + p.z);
+        const projX = width / 2 + p.x * scale;
+        const projY = height / 2 + p.y * scale;
+        const projSize = p.size * scale * 25;
+        const projAlpha = Math.min(p.alpha, scale * 1.8);
+
+        if (projX < -50 || projX > width + 50 || projY < -50 || projY > height + 50) {
+          return;
+        }
+
+        ctx.save();
+        ctx.translate(projX, projY);
+        ctx.rotate(p.rotation);
+
+        if (p.type === "rupee") {
+          ctx.fillStyle = `rgba(232, 200, 106, ${projAlpha * 0.5})`;
+          ctx.font = `bold ${Math.max(10, projSize * 0.95)}px sans-serif`;
+          ctx.fillText("₹", -projSize / 3, projSize / 3);
+        } else if (p.type === "coin") {
+          ctx.beginPath();
+          ctx.arc(0, 0, projSize / 2, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(212, 175, 55, ${projAlpha * 0.6})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          ctx.fillStyle = `rgba(232, 200, 106, ${projAlpha * 0.1})`;
+          ctx.fill();
+          
+          ctx.fillStyle = `rgba(212, 175, 55, ${projAlpha * 0.6})`;
+          ctx.font = `bold ${Math.max(8, projSize * 0.65)}px sans-serif`;
+          ctx.fillText("₹", -projSize / 4.5, projSize / 4.5);
+        } else if (p.type === "arrow") {
+          ctx.fillStyle = `rgba(34, 197, 94, ${projAlpha * 0.4})`;
+          ctx.font = `bold ${Math.max(10, projSize)}px sans-serif`;
+          ctx.fillText("↑", -projSize / 3, projSize / 3);
+        } else {
+          ctx.beginPath();
+          ctx.arc(0, 0, projSize / 4, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(232, 200, 106, ${projAlpha * 0.5})`;
+          ctx.fill();
+        }
+
+        ctx.restore();
       });
 
       animationId = requestAnimationFrame(animate);
@@ -198,8 +248,18 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen pt-28 flex items-center overflow-hidden">
-      {/* Background canvas */}
+      {/* Background canvas (deepest layer) */}
       <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none z-0" />
+
+      {/* Background Hero Image with Dark Blue overlay (rendered on top of canvas with blending) */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <img
+          src="/images/primary_hero.png"
+          alt="Ascendra Advisory Hero"
+          className="w-full h-full object-cover opacity-20"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy-dark/75 to-navy-dark/35 mix-blend-multiply" />
+      </div>
       
       {/* Radial overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-transparent to-navy-dark/40 pointer-events-none z-0" />

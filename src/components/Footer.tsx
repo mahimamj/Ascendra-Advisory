@@ -118,7 +118,7 @@ export default function Footer() {
                 <Twitter className="w-4 h-4" />
               </a>
               <a
-                href="https://wa.me/912268428888"
+                href="https://wa.me/919582876556"
                 target="_blank"
                 rel="noreferrer"
                 className="w-9 h-9 rounded bg-navy-royal/40 border border-gold-premium/15 flex items-center justify-center text-silver-soft hover:text-gold-champagne hover:border-gold-champagne hover:shadow-gold-glow transition-all duration-300"
@@ -135,19 +135,22 @@ export default function Footer() {
             </h4>
             <div className="flex flex-col gap-2.5">
               <a href="#solutions" className="text-silver-soft/75 hover:text-gold-champagne text-xs transition-colors">
-                Working Capital
+                Working Capital Financing
               </a>
               <a href="#solutions" className="text-silver-soft/75 hover:text-gold-champagne text-xs transition-colors">
-                Trade Finance & LC/BG
+                Business Financing
               </a>
               <a href="#solutions" className="text-silver-soft/75 hover:text-gold-champagne text-xs transition-colors">
-                Invoice Discounting
+                Asset & Machinery Financing
               </a>
               <a href="#solutions" className="text-silver-soft/75 hover:text-gold-champagne text-xs transition-colors">
-                Venture Debt & Early Funding
+                Sector-Specific Financing Solutions
               </a>
               <a href="#solutions" className="text-silver-soft/75 hover:text-gold-champagne text-xs transition-colors">
-                Project & Asset Finance
+                Startup & Project Financing
+              </a>
+              <a href="#solutions" className="text-silver-soft/75 hover:text-gold-champagne text-xs transition-colors">
+                Government-Backed Funding
               </a>
             </div>
           </div>
