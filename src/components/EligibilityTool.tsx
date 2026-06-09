@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { HelpCircle, ChevronRight, Award, Compass, Calculator, Info } from "lucide-react";
-import { motion } from "framer-motion";
+import { ChevronRight, Award, Compass, Calculator, Info } from "lucide-react";
+import { useSmoothTilt } from "@/hooks/useSmoothTilt";
 
 export default function EligibilityTool() {
   // Inputs state
@@ -21,27 +21,7 @@ export default function EligibilityTool() {
   const [fundingMax, setFundingMax] = useState(3.3);
   const [recommendedProducts, setRecommendedProducts] = useState<string[]>([]);
 
-  // 3D Dashboard Tilt State
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
-  const [isCardHovered, setIsCardHovered] = useState(false);
-
-  const handleMouseMoveCard = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const maxTilt = 6; // Max degrees of rotation
-    
-    const rx = ((centerY - y) / centerY) * maxTilt;
-    const ry = ((x - centerX) / centerX) * maxTilt;
-    
-    setRotateX(rx);
-    setRotateY(ry);
-  };
+  const { handleMouseMove, handleMouseLeave, getTransform } = useSmoothTilt(5, 0.08);
 
   // Scoring engine logic
   useEffect(() => {
@@ -142,23 +122,22 @@ export default function EligibilityTool() {
   };
 
   return (
-    <section id="calculator" className="py-24 bg-navy-dark border-t border-gold-premium/10 relative overflow-hidden">
+    <section id="calculator" className="py-24 bg-transparent border-t border-gold-premium/10 relative overflow-hidden">
       {/* Background visual graphics */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-navy-royal/30 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-gold-premium/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         {/* Header */}
-        <div className="text-center flex flex-col items-center gap-4 mb-16">
+        <div className="text-center flex flex-col items-center gap-3 mb-14">
           <span className="text-xs font-bold uppercase tracking-widest text-gold-champagne px-3 py-1 bg-gold-premium/5 border border-gold-premium/20 rounded-full">
-            Proprietary Credit Diagnostics
+            Eligibility Check
           </span>
-          <h2 className="font-display text-3xl md:text-5xl font-black text-white">
-            Funding Eligibility Calculator
+          <h2 className="font-display text-3xl md:text-4xl font-black text-white">
+            Know your funding range
           </h2>
-          <div className="h-[3px] w-16 bg-gold-premium rounded" />
-          <p className="text-silver-soft/75 text-sm md:text-base max-w-2xl mt-2 leading-relaxed">
-            Diagnose your business credit metrics instantly. Our scoring algorithm calculates lender suitability ranges before you submit formal paperwork.
+          <p className="text-silver-soft/65 text-sm max-w-md">
+            Instant credit score & debt capacity — no paperwork, no CIBIL impact.
           </p>
         </div>
 
@@ -166,9 +145,9 @@ export default function EligibilityTool() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
           {/* Inputs Column */}
           <div className="lg:col-span-6 glass-panel p-6 md:p-8 rounded-2xl flex flex-col gap-6">
-            <h3 className="font-display font-semibold text-white text-lg tracking-wide border-b border-gold-premium/15 pb-3 flex items-center gap-2">
+            <h3 className="font-display font-semibold text-white text-lg border-b border-gold-premium/15 pb-3 flex items-center gap-2">
               <Calculator className="w-5 h-5 text-gold-champagne" />
-              Corporate Profile Diagnostics
+              Your profile
             </h3>
 
             {/* Industry selection */}
@@ -278,48 +257,42 @@ export default function EligibilityTool() {
 
           {/* Outputs / Live Dashboard Column */}
           <div 
-            onMouseMove={handleMouseMoveCard}
-            onMouseEnter={() => setIsCardHovered(true)}
-            onMouseLeave={() => {
-              setIsCardHovered(false);
-              setRotateX(0);
-              setRotateY(0);
-            }}
-            className="lg:col-span-6 glass-panel p-6 md:p-8 rounded-2xl flex flex-col justify-between border-gold-premium/30 bg-gradient-to-br from-navy-royal/40 to-navy-dark relative overflow-hidden"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className="lg:col-span-6 glass-panel p-6 md:p-8 rounded-2xl flex flex-col justify-between border-gold-premium/30 bg-gradient-to-br from-navy-royal/40 to-navy-dark relative overflow-hidden shadow-2xl"
             style={{
               transformStyle: "preserve-3d",
-              transform: isCardHovered 
-                ? `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`
-                : `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`,
-              boxShadow: isCardHovered
-                ? "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.15)"
-                : "0 10px 30px -15px rgba(0, 0, 0, 0.5), 0 0 0px rgba(0, 0, 0, 0)",
-              transition: isCardHovered ? "transform 0.05s ease-out, box-shadow 0.2s ease" : "transform 0.5s ease-out, box-shadow 0.5s ease"
+              transform: getTransform(2),
+              willChange: "transform",
             }}
           >
             
             {/* Live indicator circle glow */}
             <div className="absolute -top-10 -right-10 w-44 h-44 bg-gold-premium/10 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Floating 3D perspective rings */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 z-0">
-              <div className="w-64 h-64 rounded-full border border-gold-premium border-dashed animate-spin absolute" style={{ transform: "rotateX(70deg) rotateY(15deg) rotateZ(0deg)", animationDuration: "14s" }} />
-              <div className="w-52 h-52 rounded-full border border-gold-champagne/45 absolute animate-spin" style={{ transform: "rotateX(70deg) rotateY(-15deg) rotateZ(0deg)", animationDuration: "18s", animationDirection: "reverse" }} />
+            {/* Floating 3D perspective rings — tilt on wrapper, spin on child */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-15 z-0">
+              <div className="orbit-tilt-a absolute">
+                <div className="orbit-spin-slow w-64 h-64 rounded-full border border-gold-premium border-dashed" />
+              </div>
+              <div className="orbit-tilt-b absolute">
+                <div className="orbit-spin-reverse w-52 h-52 rounded-full border border-gold-champagne/45" />
+              </div>
             </div>
 
             <div className="relative z-10" style={{ transform: "translateZ(10px)", transformStyle: "preserve-3d" }}>
               <h3 
-                className="font-display font-semibold text-white text-lg tracking-wide border-b border-gold-premium/15 pb-3 flex items-center gap-2"
+                className="font-display font-semibold text-white text-lg border-b border-gold-premium/15 pb-3 flex items-center gap-2"
                 style={{ transform: "translateZ(15px)" }}
               >
                 <Compass className="w-5 h-5 text-gold-premium" />
-                Live Structuring Assessment
+                Your assessment
               </h3>
 
               {/* Score radial/linear representation */}
               <div className="py-6 flex flex-col items-center justify-center border-b border-gold-premium/10 mb-6" style={{ transform: "translateZ(20px)", transformStyle: "preserve-3d" }}>
                 <span className="text-[10px] font-mono tracking-widest text-silver-soft/50 uppercase font-bold mb-1">
-                  Credit Suitability Rating
+                  Credit Score
                 </span>
                 
                 {/* Score Big Display */}
@@ -332,7 +305,7 @@ export default function EligibilityTool() {
 
                 {/* Score Status Badge */}
                 <div className={`mt-3 px-3 py-1 rounded-full text-xs font-semibold border ${confidenceBg} ${confidenceColor}`} style={{ transform: "translateZ(25px)" }}>
-                  {confidence} Approval Confidence
+                  {confidence}
                 </div>
 
                 {/* 3D-like Suitability Bar */}
@@ -357,7 +330,7 @@ export default function EligibilityTool() {
                 >
                   <div>
                     <span className="text-[9px] font-mono font-bold text-silver-soft/50 uppercase tracking-widest block">
-                      Potential Debt Capacity
+                      Debt Capacity
                     </span>
                     <span className="text-white font-semibold text-base">
                       ₹{fundingMin} Cr – ₹{fundingMax} Cr
@@ -368,7 +341,7 @@ export default function EligibilityTool() {
 
                 <div style={{ transform: "translateZ(10px)" }}>
                   <span className="text-[9px] font-mono font-bold text-silver-soft/50 uppercase tracking-widest block mb-2">
-                    Recommended Debt Instruments
+                    Recommended Products
                   </span>
                   <div className="flex flex-col gap-2">
                     {recommendedProducts.map((p, pi) => (
@@ -388,11 +361,11 @@ export default function EligibilityTool() {
                 onClick={handleApplyNow}
                 className="w-full glow-btn bg-gold-gradient text-navy-dark py-3.5 rounded font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-gold-glow active:scale-95 transition-transform"
               >
-                Apply for Custom Structuring
+                Book Advisory Session
                 <ChevronRight className="w-4 h-4 stroke-[2.5]" />
               </button>
-              <p className="text-center text-[10px] text-silver-soft/40 mt-3 leading-relaxed">
-                Applying pre-fills these metrics into our advisor strategy session form. No footprint on your CIBIL score.
+              <p className="text-center text-[10px] text-silver-soft/40 mt-3">
+                Pre-fills your profile. No CIBIL impact.
               </p>
             </div>
           </div>

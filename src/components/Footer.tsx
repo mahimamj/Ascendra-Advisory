@@ -97,8 +97,8 @@ export default function Footer() {
                 </span>
               </div>
             </a>
-            <p className="text-silver-soft/70 text-sm max-w-sm leading-relaxed">
-              Premium private credit structures and strategic financial solutions for scaling enterprises, trade houses, and technology unicorns.
+            <p className="text-silver-soft/65 text-sm max-w-xs leading-snug">
+              Structured debt advisory for growing businesses.
             </p>
             <div className="flex items-center gap-3.5 mt-2">
               <a
@@ -184,8 +184,8 @@ export default function Footer() {
             <h4 className="font-display font-semibold tracking-wider text-white text-sm">
               Market Intelligence
             </h4>
-            <p className="text-silver-soft/60 text-xs leading-relaxed">
-              Subscribe to get seasonal scheme alerts, subsidies, and interest rate updates.
+            <p className="text-silver-soft/55 text-xs">
+              Scheme alerts & rate updates.
             </p>
             <form onSubmit={handleSubscribe} className="flex flex-col gap-2 mt-1">
               <div className="relative">
@@ -220,8 +220,8 @@ export default function Footer() {
 
         {/* Legal & Regulatory Disclaimer */}
         <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-silver-soft/40 text-[11px] text-center md:text-left leading-normal max-w-2xl">
-            Disclaimer: Ascendra Advisory acts as an independent corporate debt arranger and structuring advisor. All credit approvals, limits, and pricing are subject to credit evaluations by underwriting partner banks and financial institutions.
+          <p className="text-silver-soft/40 text-[11px] text-center md:text-left max-w-xl">
+            Ascendra Advisory is an independent debt arranger. Approvals subject to partner bank underwriting.
           </p>
           <div className="flex flex-col items-center md:items-end gap-1 shrink-0">
             <p className="text-silver-soft/50 text-xs tracking-wider uppercase font-semibold text-center md:text-right">

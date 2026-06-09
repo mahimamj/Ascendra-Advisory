@@ -10,10 +10,14 @@ import EligibilityTool from "@/components/EligibilityTool";
 import CaseStudies from "@/components/CaseStudies";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
 import Footer from "@/components/Footer";
+import BackgroundCanvas from "@/components/BackgroundCanvas";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-navy-dark overflow-x-hidden antialiased">
+    <div className="flex flex-col min-h-screen bg-navy-dark overflow-x-hidden antialiased relative">
+      {/* Global 3D Particle backdrop canvas */}
+      <BackgroundCanvas />
+
       {/* Navigation Layer */}
       <Header />
 

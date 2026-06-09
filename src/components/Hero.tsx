@@ -1,272 +1,57 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { ArrowRight, Sparkles, Building2, SearchCode, Cpu, ShieldCheck, HelpCircle, TrendingUp } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { ArrowRight, Sparkles, Building2, SearchCode, Cpu, ShieldCheck, TrendingUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import OptimizedImage from "@/components/OptimizedImage";
 
 interface FlowStep {
   id: number;
   label: string;
-  sub: string;
-  description: string;
-  details: string[];
-  icon: any;
+  tagline: string;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 const FLOW_STEPS: FlowStep[] = [
-  {
-    id: 1,
-    label: "Business Intake",
-    sub: "Data Aggregation",
-    icon: Building2,
-    description: "Your operational cash flows, turnovers, and growth objectives are digitized into our secure credit portal.",
-    details: ["Instant ledger & bank state analysis", "Data ingestion under bank-grade encryption", "Sector-specific financial mapping"]
-  },
-  {
-    id: 2,
-    label: "Funding Analysis",
-    sub: "Proprietary Scoring",
-    icon: SearchCode,
-    description: "Our proprietary credit evaluation engine checks interest limits, coverage ratios, and scheme availabilities.",
-    details: ["Instant credit score diagnostics", "Debt service coverage ratio (DSCR) scan", "Government subsidy screening"]
-  },
-  {
-    id: 3,
-    label: "Financial Structuring",
-    sub: "Risk Optimization",
-    icon: Cpu,
-    description: "We structure the debt to match your trade timelines, adjusting tranches, moratoriums, and security covenants.",
-    details: ["Repayment matching seasonal revenues", "Collateral optimization (CGTMSE paths)", "Weighted average interest rate reduction"]
-  },
-  {
-    id: 4,
-    label: "Lender Network",
-    sub: "Consortium Matching",
-    icon: HelpCircle, // Will use custom visual
-    description: "Ascendra coordinates with 50+ institutional partners—combining public banks, private credit, and venture funds.",
-    details: ["Multi-lender term sheet auctions", "Parallel processing to avoid delays", "Consortium credit allocation"]
-  },
-  {
-    id: 5,
-    label: "Sanction & Approval",
-    sub: "Underwriting Closure",
-    icon: ShieldCheck,
-    description: "Final credit sanction letters are issued with optimized credit rates, clean covenants, and maximum disbursement caps.",
-    details: ["Standardized credit validation", "Minimized pre-disbursement documentation", "Fast-tracked legal vetting"]
-  },
-  {
-    id: 6,
-    label: "Accelerated Growth",
-    sub: "Capital Deployment",
-    icon: TrendingUp,
-    description: "Funds are released directly into your cash cycle, fueling raw buying, exports, startup runway, or asset setups.",
-    details: ["Capital dispatched to operations", "Structured post-funding reviews", "Subsidies claims initiation"]
-  }
+  { id: 1, label: "Assess", tagline: "Map your cash flow & credit profile", icon: Building2 },
+  { id: 2, label: "Structure", tagline: "Design debt that fits your cycle", icon: SearchCode },
+  { id: 3, label: "Match", tagline: "Auction across 50+ lenders", icon: Cpu },
+  { id: 4, label: "Sanction", tagline: "Close terms & documentation", icon: ShieldCheck },
+  { id: 5, label: "Deploy", tagline: "Funds released to operations", icon: TrendingUp },
 ];
 
 export default function Hero() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [activeStep, setActiveStep] = useState(1);
   const [autoCycle, setAutoCycle] = useState(true);
 
-  // Background light trails canvas animation
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animationId: number;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-    window.addEventListener("resize", handleResize);
-
-    // 3D Particle definition
-    interface Particle {
-      x: number;
-      y: number;
-      z: number;
-      size: number;
-      speedX: number;
-      speedY: number;
-      speedZ: number;
-      alpha: number;
-      type: "rupee" | "coin" | "arrow" | "star";
-      rotation: number;
-      rotationSpeed: number;
-    }
-
-    const particles: Particle[] = [];
-    const spawnParticle = (startFar: boolean = false): Particle => {
-      const types: ("rupee" | "coin" | "arrow" | "star")[] = ["rupee", "coin", "arrow", "star"];
-      return {
-        x: (Math.random() - 0.5) * width * 1.5,
-        y: (Math.random() - 0.5) * height * 1.5,
-        z: startFar ? Math.random() * 900 + 100 : 1000,
-        size: Math.random() * 1.5 + 0.8,
-        speedX: (Math.random() - 0.5) * 0.5,
-        speedY: (Math.random() - 0.5) * 0.5 - 0.2,
-        speedZ: -(Math.random() * 1.5 + 0.5),
-        alpha: Math.random() * 0.4 + 0.1,
-        type: types[Math.floor(Math.random() * types.length)],
-        rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.015,
-      };
-    };
-
-    for (let i = 0; i < 50; i++) {
-      particles.push(spawnParticle(true));
-    }
-
-    // Light trails ribbons
-    interface TrailPoint {
-      x: number;
-      y: number;
-      angle: number;
-      speed: number;
-      color: string;
-      width: number;
-    }
-
-    const trails: TrailPoint[] = [
-      { x: 0, y: height * 0.3, angle: 0.1, speed: 1.2, color: "rgba(212, 175, 55, 0.08)", width: 4 },
-      { x: 0, y: height * 0.5, angle: -0.05, speed: 0.9, color: "rgba(232, 200, 106, 0.05)", width: 6 },
-      { x: 0, y: height * 0.7, angle: 0.15, speed: 1.5, color: "rgba(212, 175, 55, 0.06)", width: 3 },
-    ];
-
-    const animate = () => {
-      // Clear slightly to create motion blur trails
-      ctx.fillStyle = "rgba(15, 44, 89, 0.25)";
-      ctx.fillRect(0, 0, width, height);
-
-      // Draw light trails (ribbons)
-      trails.forEach((trail) => {
-        ctx.beginPath();
-        ctx.strokeStyle = trail.color;
-        ctx.lineWidth = trail.width;
-        ctx.lineCap = "round";
-
-        ctx.moveTo(trail.x, trail.y);
-        
-        // Advance trails
-        trail.x += trail.speed;
-        trail.y += Math.sin(trail.x * 0.005 + trail.angle) * 1.2;
-
-        ctx.lineTo(trail.x, trail.y);
-        ctx.stroke();
-
-        // Loop trails back
-        if (trail.x > width + 100) {
-          trail.x = -50;
-          trail.y = Math.random() * height;
-        }
-      });
-
-      // Draw projected 3D particles
-      particles.forEach((p, idx) => {
-        p.z += p.speedZ;
-        p.x += p.speedX;
-        p.y += p.speedY;
-        p.rotation += p.rotationSpeed;
-
-        if (p.z <= 10 || p.z > 1050) {
-          particles[idx] = spawnParticle(false);
-          return;
-        }
-
-        const fov = 300;
-        const scale = fov / (fov + p.z);
-        const projX = width / 2 + p.x * scale;
-        const projY = height / 2 + p.y * scale;
-        const projSize = p.size * scale * 25;
-        const projAlpha = Math.min(p.alpha, scale * 1.8);
-
-        if (projX < -50 || projX > width + 50 || projY < -50 || projY > height + 50) {
-          return;
-        }
-
-        ctx.save();
-        ctx.translate(projX, projY);
-        ctx.rotate(p.rotation);
-
-        if (p.type === "rupee") {
-          ctx.fillStyle = `rgba(232, 200, 106, ${projAlpha * 0.5})`;
-          ctx.font = `bold ${Math.max(10, projSize * 0.95)}px sans-serif`;
-          ctx.fillText("₹", -projSize / 3, projSize / 3);
-        } else if (p.type === "coin") {
-          ctx.beginPath();
-          ctx.arc(0, 0, projSize / 2, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(212, 175, 55, ${projAlpha * 0.6})`;
-          ctx.lineWidth = 1;
-          ctx.stroke();
-          ctx.fillStyle = `rgba(232, 200, 106, ${projAlpha * 0.1})`;
-          ctx.fill();
-          
-          ctx.fillStyle = `rgba(212, 175, 55, ${projAlpha * 0.6})`;
-          ctx.font = `bold ${Math.max(8, projSize * 0.65)}px sans-serif`;
-          ctx.fillText("₹", -projSize / 4.5, projSize / 4.5);
-        } else if (p.type === "arrow") {
-          ctx.fillStyle = `rgba(34, 197, 94, ${projAlpha * 0.4})`;
-          ctx.font = `bold ${Math.max(10, projSize)}px sans-serif`;
-          ctx.fillText("↑", -projSize / 3, projSize / 3);
-        } else {
-          ctx.beginPath();
-          ctx.arc(0, 0, projSize / 4, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(232, 200, 106, ${projAlpha * 0.5})`;
-          ctx.fill();
-        }
-
-        ctx.restore();
-      });
-
-      animationId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationId);
-    };
-  }, []);
-
-  // Cycle ecosystem flow step
   useEffect(() => {
     if (!autoCycle) return;
     const interval = setInterval(() => {
-      setActiveStep((prev) => (prev === 6 ? 1 : prev + 1));
-    }, 3500);
+      setActiveStep((prev) => (prev === 5 ? 1 : prev + 1));
+    }, 3000);
     return () => clearInterval(interval);
   }, [autoCycle]);
 
+  const current = FLOW_STEPS[activeStep - 1];
+
   return (
     <section className="relative min-h-screen pt-28 flex items-center overflow-hidden">
-      {/* Background canvas (deepest layer) */}
-      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none z-0" />
-
-      {/* Background Hero Image with Dark Blue overlay (rendered on top of canvas with blending) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <img
-          src="/images/primary_hero.png"
-          alt="Ascendra Advisory Hero"
-          className="w-full h-full object-cover opacity-20"
+        <OptimizedImage
+          src="/images/primary_hero.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          quality={75}
+          className="object-cover opacity-20"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy-dark/75 to-navy-dark/35 mix-blend-multiply" />
       </div>
-      
-      {/* Radial overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-transparent to-navy-dark/40 pointer-events-none z-0" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 py-12">
-        {/* Left Headline Area */}
-        <div className="lg:col-span-6 flex flex-col gap-6 text-left">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10 py-16">
+        <div className="lg:col-span-6 flex flex-col gap-8 text-left">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -275,7 +60,7 @@ export default function Hero() {
           >
             <Sparkles className="w-4 h-4 text-gold-champagne animate-pulse" />
             <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-gold-champagne">
-              Enterprise Debt & Capital Structuring
+              Business Financing Advisory
             </span>
           </motion.div>
 
@@ -283,55 +68,64 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-display text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight"
+            className="font-display text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.08] tracking-tight"
           >
-            Capital That <br />
-            <span className="text-gold-gradient">Accelerates Growth.</span>
+            Get funded. <br />
+            <span className="text-gold-gradient">Scale faster.</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-silver-soft/80 text-base md:text-lg leading-relaxed max-w-xl"
+            className="text-silver-soft/75 text-lg md:text-xl leading-snug max-w-md"
           >
-            Structured financing solutions designed to help businesses optimize cash flow, unlock expansion opportunities, and scale with confidence.
+            Structured debt from ₹50L to ₹250Cr+ — matched across 50+ lenders in weeks, not months.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-wrap items-center gap-4 mt-2"
+            className="flex flex-wrap items-center gap-4"
           >
             <a
               href="#calculator"
-              className="glow-btn px-7 py-3.5 rounded bg-gold-gradient text-navy-dark font-bold text-sm uppercase tracking-wider shadow-gold-glow flex items-center gap-2 hover:scale-[1.02] active:scale-95 transition-all"
+              className="glow-btn px-8 py-4 rounded bg-gold-gradient text-navy-dark font-bold text-sm uppercase tracking-wider shadow-gold-glow flex items-center gap-2 hover:scale-[1.02] active:scale-95 transition-all"
             >
-              Get Funding Assessment
+              Check Eligibility
               <ArrowRight className="w-4 h-4" />
             </a>
-            <a
-              href="#contact"
-              className="px-7 py-3.5 rounded bg-navy-royal/35 border border-gold-premium/35 text-white font-bold text-sm uppercase tracking-wider hover:bg-navy-royal/60 hover:border-gold-champagne transition-all"
-            >
-              Speak with an Advisor
-            </a>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.45 }}
+            className="flex flex-wrap gap-6 pt-2 border-t border-gold-premium/10"
+          >
+            {[
+              { stat: "₹500Cr+", label: "Funded" },
+              { stat: "1,000+", label: "Businesses" },
+              { stat: "95%", label: "Sanction rate" },
+            ].map((item) => (
+              <div key={item.label}>
+                <div className="text-xl font-display font-bold text-gold-gradient">{item.stat}</div>
+                <div className="text-[10px] uppercase tracking-widest text-silver-soft/50">{item.label}</div>
+              </div>
+            ))}
           </motion.div>
         </div>
 
-        {/* Right Interactive Ecosystem Visual */}
-        <div className="lg:col-span-6 w-full flex flex-col gap-6">
+        <div className="lg:col-span-6 w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="glass-panel p-6 md:p-8 rounded-2xl shadow-2xl relative overflow-hidden"
+            className="glass-panel p-8 rounded-2xl shadow-2xl relative overflow-hidden"
           >
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="font-display font-semibold text-white tracking-wide text-lg">
-                Interactive Credit Pathway
-              </h3>
+            <div className="flex justify-between items-center mb-8">
+              <h3 className="font-display font-semibold text-white text-lg">How it works</h3>
               <button
                 onClick={() => setAutoCycle(!autoCycle)}
                 className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded transition-colors ${
@@ -340,20 +134,24 @@ export default function Hero() {
                     : "bg-white/5 text-silver-soft/50 border border-white/10"
                 }`}
               >
-                {autoCycle ? "Auto-play: On" : "Auto-play: Off"}
+                {autoCycle ? "Auto" : "Manual"}
               </button>
             </div>
 
-            {/* Path Nodes Grid */}
-            <div className="relative grid grid-cols-3 gap-y-8 gap-x-4 mb-6">
-              {/* Connecting lines overlay */}
-              <div className="absolute top-[28px] left-[15%] right-[15%] h-[1px] bg-gold-premium/10 pointer-events-none z-0 hidden sm:block" />
-              <div className="absolute top-[108px] left-[15%] right-[15%] h-[1px] bg-gold-premium/10 pointer-events-none z-0 hidden sm:block" />
-
+            <div className="relative flex justify-between items-start mb-8">
+              <div className="absolute top-7 left-[10%] right-[10%] h-px bg-gold-premium/15 pointer-events-none" />
+              <motion.div
+                className="absolute top-7 left-[10%] h-px bg-gold-gradient pointer-events-none origin-left"
+                style={{ width: "80%" }}
+                initial={false}
+                animate={{
+                  scaleX: Math.max(0.08, (activeStep - 1) / (FLOW_STEPS.length - 1)),
+                }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              />
               {FLOW_STEPS.map((step) => {
                 const IconComponent = step.icon;
                 const isActive = activeStep === step.id;
-
                 return (
                   <button
                     key={step.id}
@@ -361,62 +159,46 @@ export default function Hero() {
                       setActiveStep(step.id);
                       setAutoCycle(false);
                     }}
-                    className="flex flex-col items-center text-center relative z-10 group focus:outline-none"
+                    className="flex flex-col items-center text-center relative z-10 group focus:outline-none flex-1"
                   >
-                    <div
-                      className={`w-14 h-14 rounded-full flex items-center justify-center border transition-all duration-500 ${
+                    <motion.div
+                      layout
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      className={`w-14 h-14 rounded-full flex items-center justify-center border ${
                         isActive
-                          ? "bg-gold-gradient border-gold-champagne text-navy-dark shadow-gold-intense scale-110"
-                          : "bg-navy-dark/95 border-gold-premium/20 text-gold-premium group-hover:border-gold-champagne group-hover:scale-105"
+                          ? "bg-gold-gradient border-gold-champagne text-navy-dark shadow-gold-intense"
+                          : "bg-navy-dark/95 border-gold-premium/20 text-gold-premium group-hover:border-gold-champagne"
                       }`}
+                      animate={{ scale: isActive ? 1.08 : 1 }}
                     >
-                      <IconComponent className={`w-6 h-6 ${isActive ? "stroke-[2]" : "stroke-[1.5]"}`} />
-                    </div>
+                      <IconComponent className="w-5 h-5" />
+                    </motion.div>
                     <span
-                      className={`text-[11px] font-semibold tracking-wide mt-2 transition-colors duration-300 ${
-                        isActive ? "text-gold-champagne font-bold" : "text-silver-soft/60 group-hover:text-silver-soft"
+                      className={`text-[11px] font-semibold mt-2 transition-colors duration-300 ${
+                        isActive ? "text-gold-champagne" : "text-silver-soft/50"
                       }`}
                     >
                       {step.label}
-                    </span>
-                    <span className="text-[9px] font-mono text-silver-soft/40 tracking-wider">
-                      0{step.id}
                     </span>
                   </button>
                 );
               })}
             </div>
 
-            {/* Active Step Details Panel */}
-            <div className="border-t border-gold-premium/15 pt-5 min-h-[140px] flex flex-col justify-between">
-              <AnimatePresence mode="wait">
+            <div className="border-t border-gold-premium/15 pt-6 min-h-[72px] overflow-hidden">
+              <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={activeStep}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.25 }}
-                  className="flex flex-col gap-3"
+                  initial={{ opacity: 0, x: 24 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -24 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <div>
-                    <span className="text-[10px] font-mono font-semibold text-gold-champagne uppercase tracking-widest">
-                      Step 0{activeStep} - {FLOW_STEPS[activeStep - 1].sub}
-                    </span>
-                    <h4 className="font-display font-semibold text-white text-base mt-0.5">
-                      {FLOW_STEPS[activeStep - 1].label}
-                    </h4>
-                  </div>
-                  <p className="text-silver-soft/75 text-xs md:text-sm leading-relaxed">
-                    {FLOW_STEPS[activeStep - 1].description}
-                  </p>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-1">
-                    {FLOW_STEPS[activeStep - 1].details.map((detail, index) => (
-                      <li key={index} className="text-[11px] text-gold-champagne/80 flex items-start gap-1.5">
-                        <span className="text-gold-premium font-bold mt-0.5">•</span>
-                        {detail}
-                      </li>
-                    ))}
-                  </ul>
+                  <span className="text-[10px] font-mono text-gold-champagne uppercase tracking-widest">
+                    Step {activeStep} of 5
+                  </span>
+                  <p className="font-display font-semibold text-white text-lg mt-1">{current.label}</p>
+                  <p className="text-silver-soft/70 text-sm mt-1">{current.tagline}</p>
                 </motion.div>
               </AnimatePresence>
             </div>

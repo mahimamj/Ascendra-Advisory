@@ -102,7 +102,7 @@ Please assign a Credit Structuring Director to call me.`;
   };
 
   return (
-    <section id="contact" className="py-24 bg-navy-dark relative border-t border-gold-premium/10">
+    <section id="contact" className="py-24 bg-transparent relative border-t border-gold-premium/10">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(7,40,92,0.15)_0%,transparent_100%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
@@ -112,16 +112,15 @@ Please assign a Credit Structuring Director to call me.`;
           <div className="lg:col-span-5 flex flex-col gap-8 text-left">
             <div className="flex flex-col gap-3">
               <span className="text-xs font-bold uppercase tracking-widest text-gold-champagne px-3 py-1 bg-gold-premium/5 border border-gold-premium/20 rounded-full w-fit">
-                Intake Terminal
+                Get Started
               </span>
-              <h2 className="font-display text-3xl md:text-5xl font-black text-white leading-tight">
-                Schedule Your Funding Strategy Session
+              <h2 className="font-display text-3xl md:text-4xl font-black text-white leading-tight">
+                Book a strategy session
               </h2>
-              <div className="h-[3px] w-16 bg-gold-premium rounded mt-1" />
             </div>
 
-            <p className="text-silver-soft/75 text-sm md:text-base leading-relaxed">
-              Connect directly with an in-house credit structuring advisor. We review your turnover profiles, optimize parameters, and map credit guarantees before approaching bank committees.
+            <p className="text-silver-soft/70 text-sm leading-snug">
+              Talk to a structuring advisor. 45 minutes. No obligation.
             </p>
 
             {/* Direct Contact Blocks */}
@@ -132,7 +131,7 @@ Please assign a Credit Structuring Director to call me.`;
                 </div>
                 <div>
                   <span className="text-[10px] font-mono font-bold text-silver-soft/50 uppercase tracking-widest block">
-                    Underwriting Office Line
+                    Phone
                   </span>
                   <span className="text-white font-semibold text-sm">
                     +91 958-287-6556
@@ -146,7 +145,7 @@ Please assign a Credit Structuring Director to call me.`;
                 </div>
                 <div>
                   <span className="text-[10px] font-mono font-bold text-silver-soft/50 uppercase tracking-widest block">
-                    Advisory Inbox
+                    Email
                   </span>
                   <span className="text-white font-semibold text-sm">
                     structuring@ascendraadvisory.ai
@@ -158,8 +157,8 @@ Please assign a Credit Structuring Director to call me.`;
             {/* Privacy note */}
             <div className="flex items-start gap-3 text-silver-soft/50 border-t border-gold-premium/10 pt-6 mt-4">
               <Lock className="w-5 h-5 text-gold-premium/50 shrink-0 mt-0.5" />
-              <div className="text-xs leading-relaxed">
-                <span className="font-semibold text-silver-soft/70">Data Confidentiality Protocol:</span> All uploaded statements, turnovers, and company assets are stored in encrypted client instances. Financial records are never submitted to banks without your signed term-sheet authorization.
+              <div className="text-xs leading-relaxed text-silver-soft/55">
+                Your data is encrypted. Nothing shared with lenders without your approval.
               </div>
             </div>
           </div>
@@ -179,10 +178,10 @@ Please assign a Credit Structuring Director to call me.`;
                       Intake Complete – ID: {registeredLeadId}
                     </span>
                     <h3 className="font-display font-bold text-white text-2xl mt-2">
-                      Strategy Session Registered
+                      Session booked
                     </h3>
-                    <p className="text-silver-soft/85 text-xs md:text-sm mt-3 max-w-md mx-auto leading-relaxed">
-                      Your business profile and selected slot ({selectedDay} at {selectedSlot}) have been locked into our system. A Structuring Director will call you shortly.
+                    <p className="text-silver-soft/75 text-sm mt-3 max-w-sm mx-auto">
+                      {selectedDay} at {selectedSlot}. An advisor will call you shortly.
                     </p>
                   </div>
 
@@ -190,10 +189,10 @@ Please assign a Credit Structuring Director to call me.`;
                   <div className="mt-4 p-5 bg-navy-royal/40 border border-gold-premium/15 rounded-xl w-full flex flex-col items-center gap-4">
                     <div>
                       <h4 className="font-display font-semibold text-white text-sm">
-                        Prefer Instant Dispatch?
+                        Need it faster?
                       </h4>
                       <p className="text-silver-soft/60 text-xs mt-1">
-                        Connect with our active desk on WhatsApp to share spreadsheets or ask fast questions.
+                        Chat with us on WhatsApp.
                       </p>
                     </div>
                     <a
@@ -203,7 +202,7 @@ Please assign a Credit Structuring Director to call me.`;
                       className="glow-btn bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded font-bold text-xs uppercase tracking-widest flex items-center gap-2"
                     >
                       <MessageSquare className="w-4 h-4 fill-white" />
-                      Chat with Advisor via WhatsApp
+                      WhatsApp Us
                     </a>
                   </div>
                 </div>
@@ -338,13 +337,13 @@ Please assign a Credit Structuring Director to call me.`;
                   {/* Objective */}
                   <div className="flex flex-col gap-1.5 text-left">
                     <label className="text-[10px] font-bold uppercase tracking-wider text-silver-soft/80">
-                      Funding Objectives & Structuring Requests
+                      Funding objective
                     </label>
                     <textarea
                       id="form-objective"
                       value={fundingObjective}
                       onChange={(e) => setFundingObjective(e.target.value)}
-                      placeholder="Outline any challenges with current interest rates, collateral caps, or timeline blocks..."
+                      placeholder="What do you need funding for?"
                       rows={3}
                       className="w-full bg-navy-dark/95 border border-gold-premium/20 rounded px-4 py-2.5 text-xs text-white placeholder-silver-soft/40 focus:outline-none focus:border-gold-champagne transition-colors resize-none"
                     />
@@ -403,12 +402,12 @@ Please assign a Credit Structuring Director to call me.`;
                     disabled={submitting}
                     className="w-full glow-btn bg-gold-gradient text-navy-dark py-4 rounded font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-gold-glow active:scale-98 transition-transform mt-3 cursor-pointer"
                   >
-                    {submitting ? "Processing intake..." : "Schedule My Funding Strategy Session"}
+                    {submitting ? "Booking..." : "Book Session"}
                   </button>
 
                   <div className="flex items-center justify-center gap-1.5 text-[10px] text-silver-soft/40">
                     <ShieldCheck className="w-3.5 h-3.5 text-gold-premium/50" />
-                    Secure SSL Enforced Intake. Powered by Ascendra Secure Client Portal.
+                    Encrypted & secure.
                   </div>
                 </form>
               )}

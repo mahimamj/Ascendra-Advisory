@@ -38,6 +38,16 @@
   }
 }
 
+html {
+  font-size: 16.5px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 17.5px;
+  }
+}
+
 :root {
   --background: #0F2C59;
   --foreground: #F3F4F6;
@@ -133,4 +143,40 @@ body {
 
 .glow-btn:hover::before {
   left: 100%;
+}
+
+/* Premium fintech section rhythm */
+section {
+  letter-spacing: -0.01em;
+}
+
+.section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Smooth 3D orbit — tilt on parent, spin on child (avoids transform conflict) */
+.orbit-tilt-a {
+  transform: rotateX(62deg) rotateY(10deg);
+  transform-style: preserve-3d;
+}
+
+.orbit-tilt-b {
+  transform: rotateX(62deg) rotateY(-10deg);
+  transform-style: preserve-3d;
+}
+
+@keyframes orbit-spin {
+  from { transform: rotateZ(0deg); }
+  to { transform: rotateZ(360deg); }
+}
+
+.orbit-spin-slow {
+  animation: orbit-spin 22s linear infinite;
+}
+
+.orbit-spin-reverse {
+  animation: orbit-spin 28s linear infinite reverse;
 }

@@ -19,10 +19,9 @@ export default function Header() {
   const navLinks = [
     { name: "About", href: "#about" },
     { name: "Solutions", href: "#solutions" },
-    { name: "Compliance", href: "#certifications" },
     { name: "Industries", href: "#industries" },
-    { name: "Eligibility Calculator", href: "#calculator" },
-    { name: "Case Studies", href: "#cases" },
+    { name: "Calculator", href: "#calculator" },
+    { name: "Results", href: "#cases" },
   ];
 
   return (
@@ -122,7 +121,7 @@ export default function Header() {
               href="#contact"
               className="glow-btn px-6 py-2.5 rounded bg-transparent border border-gold-premium text-gold-champagne text-xs font-semibold tracking-wider uppercase transition-all duration-300 hover:bg-gold-premium hover:text-navy-dark flex items-center gap-1.5 shadow-gold-glow"
             >
-              Book Strategy Session
+              Book Session
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
           </div>
@@ -165,7 +164,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
               className="w-full text-center py-3 rounded bg-gold-gradient text-navy-dark font-bold tracking-wider uppercase text-sm shadow-gold-glow flex items-center justify-center gap-2"
             >
-              Book Strategy Session
+              Book Session
               <ArrowUpRight className="w-4 h-4" />
             </a>
           </motion.div>

@@ -13,10 +13,10 @@ interface MetricItem {
 }
 
 const METRICS: MetricItem[] = [
-  { id: 1, label: "Funding Facilitated", value: 500, prefix: "₹", suffix: "Cr+", duration: 1800 },
-  { id: 2, label: "Businesses Supported", value: 1000, suffix: "+", duration: 2000 },
-  { id: 3, label: "Financial Partners", value: 50, suffix: "+", duration: 1500 },
-  { id: 4, label: "Sanction Success Rate", value: 95, suffix: "%", duration: 1600 }
+  { id: 1, label: "Capital Deployed", value: 500, prefix: "₹", suffix: "Cr+", duration: 1800 },
+  { id: 2, label: "Businesses Funded", value: 1000, suffix: "+", duration: 2000 },
+  { id: 3, label: "Lender Partners", value: 50, suffix: "+", duration: 1500 },
+  { id: 4, label: "Sanction Rate", value: 95, suffix: "%", duration: 1600 }
 ];
 
 export default function TrustMetrics() {
